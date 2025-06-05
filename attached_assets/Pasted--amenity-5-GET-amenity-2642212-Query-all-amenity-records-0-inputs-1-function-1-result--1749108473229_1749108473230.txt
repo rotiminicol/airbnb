@@ -1,0 +1,187 @@
+
+amenity (5)
+
+GET
+amenity
+#2642212
+Query all amenity records
+0 inputs
+1 function
+1 result
+ Public
+
+POST
+amenity
+#2642213
+Add amenity record
+1 input
+1 function
+1 result
+ Public
+
+DELETE
+amenity/{amenity_id}
+#2642205
+Delete amenity record.
+1 input
+1 function
+0 results
+ Public
+
+GET
+amenity/{amenity_id}
+#2642211
+Get amenity record
+1 input
+2 functions
+1 result
+ Public
+
+PATCH
+amenity/{amenity_id}
+#2642214
+Edit amenity record
+2 inputs
+2 functions
+1 result
+ Public
+
+booking (5)
+
+GET
+booking
+#2642216
+Query all booking records
+0 inputs
+1 function
+1 result
+ Public
+
+POST
+booking
+#2642217
+Add booking record
+1 input
+1 function
+1 result
+ Public
+
+DELETE
+booking/{booking_id}
+#2642206
+Delete booking record.
+1 input
+1 function
+0 results
+ Public
+
+GET
+booking/{booking_id}
+#2642215
+Get booking record
+1 input
+2 functions
+1 result
+ Public
+
+PATCH
+booking/{booking_id}
+#2642218
+Edit booking record
+2 inputs
+2 functions
+1 result
+ Public
+
+property (5)
+
+GET
+property
+#2642208
+Query all property records
+0 inputs
+1 function
+1 result
+ Public
+
+POST
+property
+#2642209
+Add property record
+1 input
+1 function
+1 result
+ Public
+
+DELETE
+property/{property_id}
+#2642204
+Delete property record.
+1 input
+1 function
+0 results
+ Public
+
+GET
+property/{property_id}
+#2642207
+Get property record
+1 input
+2 functions
+1 result
+ Public
+
+PATCH
+property/{property_id}
+#2642210
+Edit property record
+2 inputs
+2 functions
+1 result
+ Public
+
+review (5)
+
+GET
+review
+#2642201
+Query all review records
+0 inputs
+1 function
+1 result
+ Public
+
+POST
+review
+#2642202
+Add review record
+1 input
+1 function
+1 result
+ Public
+
+DELETE
+review/{review_id}
+#2642199
+Delete review record.
+1 input
+1 function
+0 results
+ Public
+
+GET
+review/{review_id}
+#2642200
+Get review record
+1 input
+2 functions
+1 result
+ Public
+
+PATCH
+review/{review_id}
+#2642203
+Edit review record
+2 inputs
+2 functions
+1 result
