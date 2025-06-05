@@ -182,6 +182,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Stripe payment intent route
+  app.post("/api/create-payment-intent", async (req, res) => {
+    try {
+      const schema = z.object({
+        amount: z.number().min(1),
+        currency: z.string().default("usd"),
+      });
+      
+      const data = schema.parse(req.body);
+      
+      // For demo purposes, return a mock client secret
+      // In production, this would integrate with actual Stripe API
+      const mockClientSecret = `pi_mock_${Date.now()}_secret_${Math.random().toString(36).substr(2, 9)}`;
+      
+      res.json({ 
+        clientSecret: mockClientSecret,
+        message: "Mock payment intent created for demo purposes"
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid data", details: error.errors });
+      }
+      res.status(500).json({ error: "Failed to create payment intent" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
