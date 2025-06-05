@@ -1,4 +1,5 @@
 import { properties, users, wishlist, type Property, type InsertProperty, type User, type InsertUser, type WishlistItem, type InsertWishlistItem } from "@shared/schema";
+import { xanoAPI } from "./xano";
 
 export interface IStorage {
   // Properties
@@ -19,6 +20,115 @@ export interface IStorage {
   addToWishlist(item: InsertWishlistItem): Promise<WishlistItem>;
   removeFromWishlist(userId: number, propertyId: number): Promise<boolean>;
   isInWishlist(userId: number, propertyId: number): Promise<boolean>;
+}
+
+export class XanoStorage implements IStorage {
+  // Properties
+  async getAllProperties(): Promise<Property[]> {
+    try {
+      return await xanoAPI.getAllProperties();
+    } catch (error) {
+      console.error('Failed to fetch properties from Xano:', error);
+      return [];
+    }
+  }
+
+  async getPropertyById(id: number): Promise<Property | undefined> {
+    try {
+      return await xanoAPI.getPropertyById(id);
+    } catch (error) {
+      console.error(`Failed to fetch property ${id} from Xano:`, error);
+      return undefined;
+    }
+  }
+
+  async searchProperties(query: string): Promise<Property[]> {
+    try {
+      return await xanoAPI.searchProperties(query);
+    } catch (error) {
+      console.error('Failed to search properties in Xano:', error);
+      return [];
+    }
+  }
+
+  async getPropertiesByCategory(category: string): Promise<Property[]> {
+    try {
+      return await xanoAPI.getPropertiesByCategory(category);
+    } catch (error) {
+      console.error(`Failed to fetch properties by category ${category} from Xano:`, error);
+      return [];
+    }
+  }
+
+  async createProperty(property: InsertProperty): Promise<Property> {
+    return await xanoAPI.createProperty(property);
+  }
+
+  // Users
+  async getUser(id: number): Promise<User | undefined> {
+    try {
+      return await xanoAPI.getUser(id);
+    } catch (error) {
+      console.error(`Failed to fetch user ${id} from Xano:`, error);
+      return undefined;
+    }
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    try {
+      const user = await xanoAPI.getUserByUsername(username);
+      return user || undefined;
+    } catch (error) {
+      console.error(`Failed to fetch user by username ${username} from Xano:`, error);
+      return undefined;
+    }
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    try {
+      const user = await xanoAPI.getUserByEmail(email);
+      return user || undefined;
+    } catch (error) {
+      console.error(`Failed to fetch user by email ${email} from Xano:`, error);
+      return undefined;
+    }
+  }
+
+  async createUser(user: InsertUser): Promise<User> {
+    return await xanoAPI.createUser(user);
+  }
+
+  // Wishlist
+  async getWishlistByUserId(userId: number): Promise<WishlistItem[]> {
+    try {
+      return await xanoAPI.getWishlistByUserId(userId);
+    } catch (error) {
+      console.error(`Failed to fetch wishlist for user ${userId} from Xano:`, error);
+      return [];
+    }
+  }
+
+  async addToWishlist(item: InsertWishlistItem): Promise<WishlistItem> {
+    return await xanoAPI.addToWishlist(item);
+  }
+
+  async removeFromWishlist(userId: number, propertyId: number): Promise<boolean> {
+    try {
+      return await xanoAPI.removeFromWishlist(userId, propertyId);
+    } catch (error) {
+      console.error(`Failed to remove from wishlist in Xano:`, error);
+      return false;
+    }
+  }
+
+  async isInWishlist(userId: number, propertyId: number): Promise<boolean> {
+    try {
+      return await xanoAPI.isInWishlist(userId, propertyId);
+    } catch (error) {
+      console.error(`Failed to check wishlist status in Xano:`, error);
+      return false;
+    }
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -340,4 +450,7 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Use Xano storage for production, fallback to memory storage for development
+export const storage = process.env.NODE_ENV === 'development' && !process.env.XANO_API_ENDPOINT 
+  ? new MemStorage() 
+  : new XanoStorage();
