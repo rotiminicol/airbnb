@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --primary: 207 90% 54%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 60 4.8% 95.9%;
+  --secondary-foreground: 24 9.8% 10%;
+  --accent: 60 4.8% 95.9%;
+  --accent-foreground: 24 9.8% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --ring: 20 14.3% 4.1%;
+  --radius: 0.5rem;
+
+  /* Airbnb specific colors */
+  --airbnb-red: 351 100% 67%; /* #FF5A5F */
+  --airbnb-dark: 0 0% 28%; /* #484848 */
+  --airbnb-light-gray: 0 0% 97%; /* #F7F7F7 */
+  --airbnb-border: 0 0% 87%; /* #DDDDDD */
+  --airbnb-light-border: 0 0% 92%; /* #EBEBEB */
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 207 90% 54%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 240 4.9% 83.9%;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+}
+
+@layer utilities {
+  .airbnb-red {
+    color: hsl(var(--airbnb-red));
+  }
+  
+  .bg-airbnb-red {
+    background-color: hsl(var(--airbnb-red));
+  }
+  
+  .text-airbnb-dark {
+    color: hsl(var(--airbnb-dark));
+  }
+  
+  .bg-airbnb-light-gray {
+    background-color: hsl(var(--airbnb-light-gray));
+  }
+  
+  .border-airbnb-border {
+    border-color: hsl(var(--airbnb-border));
+  }
+  
+  .border-airbnb-light-border {
+    border-color: hsl(var(--airbnb-light-border));
+  }
+
+  .search-shadow {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 1px 6px rgba(0,0,0,0.16);
+  }
+  
+  .card-shadow {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .property-card:hover .property-image {
+    transform: scale(1.05);
+  }
+  
+  .property-image {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .filter-button:hover {
+    background-color: hsl(var(--airbnb-light-gray));
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
