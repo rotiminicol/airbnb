@@ -256,36 +256,66 @@ export class XanoAPI {
     });
   }
 
-  // Wishlist
-  async getWishlistByUserId(userId: number): Promise<WishlistItem[]> {
-    return this.request<WishlistItem[]>(`/wishlist/user/${userId}`);
-  }
-
-  async addToWishlist(item: InsertWishlistItem): Promise<WishlistItem> {
-    return this.request<WishlistItem>('/wishlist', {
+  // Authentication
+  async login(email: string, password: string): Promise<{ user: XanoUser; token: string }> {
+    return this.request<{ user: XanoUser; token: string }>('/auth/login', {
       method: 'POST',
-      body: JSON.stringify(item),
+      body: JSON.stringify({ email, password }),
     });
   }
 
+  async signup(name: string, email: string, password: string): Promise<{ user: XanoUser; token: string }> {
+    return this.request<{ user: XanoUser; token: string }>('/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify({ name, email, password }),
+    });
+  }
+
+  async getMe(token: string): Promise<XanoUser> {
+    return this.request<XanoUser>('/auth/me', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+  }
+
+  // Bookings
+  async createBooking(booking: {
+    check_in_date: string;
+    check_out_date: string;
+    total_price: number;
+    property_id: number;
+    user_id: number;
+  }): Promise<any> {
+    return this.request('/booking', {
+      method: 'POST',
+      body: JSON.stringify(booking),
+    });
+  }
+
+  async getUserBookings(userId: number): Promise<any[]> {
+    // Get all bookings and filter by user - since no specific endpoint exists
+    const allBookings = await this.request<any[]>('/booking');
+    return allBookings.filter(booking => booking.user_id === userId);
+  }
+
+  // Wishlist (simplified for now)
+  async getWishlistByUserId(userId: number): Promise<WishlistItem[]> {
+    // Return empty array for now since wishlist table doesn't exist in your Xano
+    return [];
+  }
+
+  async addToWishlist(item: InsertWishlistItem): Promise<WishlistItem> {
+    // Mock implementation - could be implemented when wishlist table is added to Xano
+    throw new Error('Wishlist functionality not implemented in Xano yet');
+  }
+
   async removeFromWishlist(userId: number, propertyId: number): Promise<boolean> {
-    try {
-      await this.request(`/wishlist/user/${userId}/property/${propertyId}`, {
-        method: 'DELETE',
-      });
-      return true;
-    } catch (error) {
-      return false;
-    }
+    return false;
   }
 
   async isInWishlist(userId: number, propertyId: number): Promise<boolean> {
-    try {
-      await this.request(`/wishlist/user/${userId}/property/${propertyId}`);
-      return true;
-    } catch (error) {
-      return false;
-    }
+    return false;
   }
 }
 

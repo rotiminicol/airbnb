@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Calendar } from "@/components/ui/calendar";
 import { SearchFilters } from "@/lib/types";
+import AuthModal from "./AuthModal";
 
 interface HeaderProps {
   onSearch?: (filters: SearchFilters) => void;
@@ -21,6 +23,13 @@ export default function Header({ onSearch }: HeaderProps) {
     guests: 1,
   });
 
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+
+  // Check if user is logged in
+  const isLoggedIn = localStorage.getItem("auth_token");
+  const user = isLoggedIn ? JSON.parse(localStorage.getItem("user") || "{}") : null;
+
   const handleSearch = () => {
     if (onSearch) {
       onSearch(searchFilters);
@@ -33,6 +42,29 @@ export default function Header({ onSearch }: HeaderProps) {
   ) => {
     setSearchFilters(prev => ({ ...prev, [key]: value }));
   };
+
+  const openAuthModal = (mode: "login" | "signup") => {
+    setAuthMode(mode);
+    setAuthModalOpen(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("user");
+    window.location.reload();
+  };
+
+  const languages = [
+    { code: "en", name: "English", region: "United States" },
+    { code: "es", name: "Español", region: "España" },
+    { code: "fr", name: "Français", region: "France" },
+    { code: "de", name: "Deutsch", region: "Deutschland" },
+    { code: "it", name: "Italiano", region: "Italia" },
+    { code: "pt", name: "Português", region: "Brasil" },
+    { code: "zh", name: "中文", region: "中国" },
+    { code: "ja", name: "日本語", region: "日本" },
+    { code: "ko", name: "한국어", region: "대한민국" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-airbnb-light-border">
@@ -162,18 +194,84 @@ export default function Header({ onSearch }: HeaderProps) {
             <Button variant="ghost" className="hidden md:block text-sm font-medium text-airbnb-dark">
               Airbnb your home
             </Button>
-            <Button variant="ghost" size="sm" className="p-2">
-              <Globe className="h-4 w-4 text-airbnb-dark" />
-            </Button>
-            <div className="flex items-center border border-airbnb-border rounded-full px-2 py-1 hover:shadow-md transition-shadow duration-200 cursor-pointer">
-              <Menu className="text-airbnb-dark h-4 w-4 mr-3" />
-              <div className="w-8 h-8 bg-airbnb-dark rounded-full flex items-center justify-center">
-                <User className="text-white h-4 w-4" />
-              </div>
-            </div>
+            
+            {/* Language/Region Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="p-2">
+                  <Globe className="h-4 w-4 text-airbnb-dark" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-64">
+                <div className="p-3 border-b">
+                  <h3 className="font-semibold">Choose a language and region</h3>
+                </div>
+                <div className="max-h-64 overflow-y-auto">
+                  {languages.map((lang) => (
+                    <DropdownMenuItem key={lang.code} className="flex flex-col items-start p-3">
+                      <span className="font-medium">{lang.name}</span>
+                      <span className="text-sm text-gray-500">{lang.region}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* User Menu Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center border border-airbnb-border rounded-full px-2 py-1 hover:shadow-md transition-shadow duration-200 cursor-pointer">
+                  <Menu className="text-airbnb-dark h-4 w-4 mr-3" />
+                  <div className="w-8 h-8 bg-airbnb-dark rounded-full flex items-center justify-center">
+                    <User className="text-white h-4 w-4" />
+                  </div>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                {isLoggedIn ? (
+                  <>
+                    <div className="p-3 border-b">
+                      <p className="font-medium">{user?.name || user?.email}</p>
+                      <p className="text-sm text-gray-500">{user?.email}</p>
+                    </div>
+                    <DropdownMenuItem>Messages</DropdownMenuItem>
+                    <DropdownMenuItem>Notifications</DropdownMenuItem>
+                    <DropdownMenuItem>Trips</DropdownMenuItem>
+                    <DropdownMenuItem>Wishlists</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Manage listings</DropdownMenuItem>
+                    <DropdownMenuItem>Host an experience</DropdownMenuItem>
+                    <DropdownMenuItem>Account</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Help Center</DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem onClick={() => openAuthModal("signup")}>
+                      Sign up
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => openAuthModal("login")}>
+                      Log in
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Gift cards</DropdownMenuItem>
+                    <DropdownMenuItem>Airbnb your home</DropdownMenuItem>
+                    <DropdownMenuItem>Help Center</DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        mode={authMode}
+        onSwitchMode={setAuthMode}
+      />
     </header>
   );
 }
