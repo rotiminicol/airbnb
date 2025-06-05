@@ -193,123 +193,211 @@ export default function Header({ onSearch }: HeaderProps) {
         {/* Search Bar Row */}
         <div className="pb-6">
           <div className="flex justify-center">
-            <div className="flex items-center bg-white border border-gray-300 rounded-full shadow-sm hover:shadow-lg transition-shadow duration-200 max-w-4xl w-full">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <div className="flex-1 px-6 py-3 border-r border-gray-300 cursor-pointer hover:bg-gray-50 rounded-l-full">
-                    <div className="text-xs font-medium text-black">Where</div>
-                    <Input
-                      type="text"
-                      placeholder="Search destinations"
-                      value={searchFilters.location}
-                      onChange={(e) => updateFilter("location", e.target.value)}
-                      className="border-0 p-0 focus-visible:ring-0 placeholder:text-gray-400"
-                    />
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="space-y-4">
-                    <h4 className="font-semibold">Search by region</h4>
-                    <div className="grid grid-cols-3 gap-2">
-                      <Button variant="outline" size="sm">I'm flexible</Button>
-                      <Button variant="outline" size="sm">Europe</Button>
-                      <Button variant="outline" size="sm">United States</Button>
-                      <Button variant="outline" size="sm">Italy</Button>
-                      <Button variant="outline" size="sm">Asia</Button>
-                      <Button variant="outline" size="sm">France</Button>
+            {/* Homes Search */}
+            {location === "/" && (
+              <div className="flex items-center bg-white border border-gray-300 rounded-full shadow-sm hover:shadow-lg transition-shadow duration-200 max-w-4xl w-full">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div className="flex-1 px-6 py-3 border-r border-gray-300 cursor-pointer hover:bg-gray-50 rounded-l-full">
+                      <div className="text-xs font-medium text-black">Where</div>
+                      <Input
+                        type="text"
+                        placeholder="Search destinations"
+                        value={searchFilters.location}
+                        onChange={(e) => updateFilter("location", e.target.value)}
+                        className="border-0 p-0 focus-visible:ring-0 placeholder:text-gray-400"
+                      />
                     </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
-
-              {/* Check in */}
-              <Popover>
-                <PopoverTrigger asChild>
-                  <div className="flex-1 px-6 py-3 border-r border-gray-300 cursor-pointer hover:bg-gray-50">
-                    <div className="text-xs font-medium text-black">Check in</div>
-                    <div className="text-sm text-gray-400">
-                      {searchFilters.checkIn ? searchFilters.checkIn.toLocaleDateString() : "Add dates"}
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="space-y-4">
+                      <h4 className="font-semibold">Search by region</h4>
+                      <div className="grid grid-cols-3 gap-2">
+                        <Button variant="outline" size="sm">I'm flexible</Button>
+                        <Button variant="outline" size="sm">Europe</Button>
+                        <Button variant="outline" size="sm">United States</Button>
+                        <Button variant="outline" size="sm">Italy</Button>
+                        <Button variant="outline" size="sm">Asia</Button>
+                        <Button variant="outline" size="sm">France</Button>
+                      </div>
                     </div>
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <CalendarComponent
-                    mode="single"
-                    selected={searchFilters.checkIn}
-                    onSelect={(date) => updateFilter("checkIn", date)}
-                    disabled={(date) => date < new Date()}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+                  </PopoverContent>
+                </Popover>
 
-              {/* Check out */}
-              <Popover>
-                <PopoverTrigger asChild>
-                  <div className="flex-1 px-6 py-3 border-r border-gray-300 cursor-pointer hover:bg-gray-50">
-                    <div className="text-xs font-medium text-black">Check out</div>
-                    <div className="text-sm text-gray-400">
-                      {searchFilters.checkOut ? searchFilters.checkOut.toLocaleDateString() : "Add dates"}
-                    </div>
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <CalendarComponent
-                    mode="single"
-                    selected={searchFilters.checkOut}
-                    onSelect={(date) => updateFilter("checkOut", date)}
-                    disabled={(date) => date < new Date() || (searchFilters.checkIn && date <= searchFilters.checkIn)}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-
-              {/* Who */}
-              <Popover>
-                <PopoverTrigger asChild>
-                  <div className="flex items-center justify-between px-6 py-3 cursor-pointer hover:bg-gray-50 rounded-r-full">
-                    <div>
-                      <div className="text-xs font-medium text-black">Who</div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div className="flex-1 px-6 py-3 border-r border-gray-300 cursor-pointer hover:bg-gray-50">
+                      <div className="text-xs font-medium text-black">Check in</div>
                       <div className="text-sm text-gray-400">
-                        {searchFilters.guests === 1 ? "1 guest" : `${searchFilters.guests} guests`}
+                        {searchFilters.checkIn ? searchFilters.checkIn.toLocaleDateString() : "Add dates"}
                       </div>
                     </div>
-                    <Button className="bg-[#E61E4D] hover:bg-[#D70466] text-white rounded-full w-12 h-12 ml-4" size="icon">
-                      <Search className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      selected={searchFilters.checkIn || undefined}
+                      onSelect={(date) => updateFilter("checkIn", date || null)}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div className="flex-1 px-6 py-3 border-r border-gray-300 cursor-pointer hover:bg-gray-50">
+                      <div className="text-xs font-medium text-black">Check out</div>
+                      <div className="text-sm text-gray-400">
+                        {searchFilters.checkOut ? searchFilters.checkOut.toLocaleDateString() : "Add dates"}
+                      </div>
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      selected={searchFilters.checkOut || undefined}
+                      onSelect={(date) => updateFilter("checkOut", date || null)}
+                      disabled={(date) => date < new Date() || (searchFilters.checkIn && date <= searchFilters.checkIn)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div className="flex items-center justify-between px-6 py-3 cursor-pointer hover:bg-gray-50 rounded-r-full">
                       <div>
-                        <div className="font-medium">Adults</div>
-                        <div className="text-sm text-gray-500">Ages 13 or above</div>
+                        <div className="text-xs font-medium text-black">Who</div>
+                        <div className="text-sm text-gray-400">
+                          {searchFilters.guests === 1 ? "1 guest" : `${searchFilters.guests} guests`}
+                        </div>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => updateFilter("guests", Math.max(1, searchFilters.guests - 1))}
-                          disabled={searchFilters.guests <= 1}
-                        >
-                          -
-                        </Button>
-                        <span className="w-8 text-center">{searchFilters.guests}</span>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => updateFilter("guests", Math.min(16, searchFilters.guests + 1))}
-                          disabled={searchFilters.guests >= 16}
-                        >
-                          +
-                        </Button>
+                      <Button className="bg-[#E61E4D] hover:bg-[#D70466] text-white rounded-full w-12 h-12 ml-4" size="icon">
+                        <Search className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="font-medium">Adults</div>
+                          <div className="text-sm text-gray-500">Ages 13 or above</div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => updateFilter("guests", Math.max(1, searchFilters.guests - 1))}
+                            disabled={searchFilters.guests <= 1}
+                          >
+                            -
+                          </Button>
+                          <span className="w-8 text-center">{searchFilters.guests}</span>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => updateFilter("guests", Math.min(16, searchFilters.guests + 1))}
+                            disabled={searchFilters.guests >= 16}
+                          >
+                            +
+                          </Button>
+                        </div>
                       </div>
                     </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            )}
+
+            {/* Experiences Search */}
+            {location === "/experiences" && (
+              <div className="flex items-center bg-white border border-gray-300 rounded-full shadow-sm hover:shadow-lg transition-shadow duration-200 max-w-4xl w-full">
+                <div className="flex-1 px-6 py-3 border-r border-gray-300 cursor-pointer hover:bg-gray-50 rounded-l-full">
+                  <div className="text-xs font-medium text-black">Where</div>
+                  <Input
+                    type="text"
+                    placeholder="Search destinations"
+                    value={searchFilters.location}
+                    onChange={(e) => updateFilter("location", e.target.value)}
+                    className="border-0 p-0 focus-visible:ring-0 placeholder:text-gray-400"
+                  />
+                </div>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div className="flex-1 px-6 py-3 border-r border-gray-300 cursor-pointer hover:bg-gray-50">
+                      <div className="text-xs font-medium text-black">Date</div>
+                      <div className="text-sm text-gray-400">Add dates</div>
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      selected={searchFilters.checkIn || undefined}
+                      onSelect={(date) => updateFilter("checkIn", date || null)}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <div className="flex items-center justify-between px-6 py-3 cursor-pointer hover:bg-gray-50 rounded-r-full">
+                  <div>
+                    <div className="text-xs font-medium text-black">Who</div>
+                    <div className="text-sm text-gray-400">Add guests</div>
                   </div>
-                </PopoverContent>
-              </Popover>
-            </div>
+                  <Button className="bg-[#E61E4D] hover:bg-[#D70466] text-white rounded-full w-12 h-12 ml-4" size="icon">
+                    <Search className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Services Search */}
+            {location === "/services" && (
+              <div className="flex items-center bg-white border border-gray-300 rounded-full shadow-sm hover:shadow-lg transition-shadow duration-200 max-w-4xl w-full">
+                <div className="flex-1 px-6 py-3 border-r border-gray-300 cursor-pointer hover:bg-gray-50 rounded-l-full">
+                  <div className="text-xs font-medium text-black">Anywhere</div>
+                  <Input
+                    type="text"
+                    placeholder="Search services"
+                    value={searchFilters.location}
+                    onChange={(e) => updateFilter("location", e.target.value)}
+                    className="border-0 p-0 focus-visible:ring-0 placeholder:text-gray-400"
+                  />
+                </div>
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div className="flex-1 px-6 py-3 border-r border-gray-300 cursor-pointer hover:bg-gray-50">
+                      <div className="text-xs font-medium text-black">Anytime</div>
+                      <div className="text-sm text-gray-400">Add dates</div>
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      selected={searchFilters.checkIn || undefined}
+                      onSelect={(date) => updateFilter("checkIn", date || null)}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <div className="flex items-center justify-between px-6 py-3 cursor-pointer hover:bg-gray-50 rounded-r-full">
+                  <div>
+                    <div className="text-xs font-medium text-black">Add service</div>
+                    <div className="text-sm text-gray-400">What do you need?</div>
+                  </div>
+                  <Button className="bg-[#E61E4D] hover:bg-[#D70466] text-white rounded-full w-12 h-12 ml-4" size="icon">
+                    <Search className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

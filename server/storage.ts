@@ -20,6 +20,25 @@ export interface IStorage {
   addToWishlist(item: InsertWishlistItem): Promise<WishlistItem>;
   removeFromWishlist(userId: number, propertyId: number): Promise<boolean>;
   isInWishlist(userId: number, propertyId: number): Promise<boolean>;
+
+  // Amenities
+  getAllAmenities(): Promise<Amenity[]>;
+  getAmenityById(id: number): Promise<Amenity | undefined>;
+  createAmenity(amenity: InsertAmenity): Promise<Amenity>;
+
+  // Bookings
+  getAllBookings(): Promise<Booking[]>;
+  getBookingById(id: number): Promise<Booking | undefined>;
+  getBookingsByUserId(userId: number): Promise<Booking[]>;
+  getBookingsByPropertyId(propertyId: number): Promise<Booking[]>;
+  createBooking(booking: InsertBooking): Promise<Booking>;
+
+  // Reviews
+  getAllReviews(): Promise<Review[]>;
+  getReviewById(id: number): Promise<Review | undefined>;
+  getReviewsByPropertyId(propertyId: number): Promise<Review[]>;
+  getReviewsByUserId(userId: number): Promise<Review[]>;
+  createReview(review: InsertReview): Promise<Review>;
 }
 
 export class XanoStorage implements IStorage {

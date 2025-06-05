@@ -60,6 +60,51 @@ export const wishlist = pgTable("wishlist", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const amenities = pgTable("amenities", {
+  id: serial("id").primaryKey(),
+  createdAt: timestamp("created_at").defaultNow(),
+  name: text("name").notNull(),
+});
+
+export const bookings = pgTable("bookings", {
+  id: serial("id").primaryKey(),
+  createdAt: timestamp("created_at").defaultNow(),
+  checkInDate: timestamp("check_in_date").notNull(),
+  checkOutDate: timestamp("check_out_date").notNull(),
+  totalPrice: decimal("total_price", { precision: 10, scale: 2 }).notNull(),
+  status: text("status").notNull(),
+  propertyId: integer("property_id").references(() => properties.id).notNull(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+});
+
+export const reviews = pgTable("reviews", {
+  id: serial("id").primaryKey(),
+  createdAt: timestamp("created_at").defaultNow(),
+  rating: integer("rating").notNull(),
+  comment: text("comment").notNull(),
+  propertyId: integer("property_id").references(() => properties.id).notNull(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+  bookingId: integer("booking_id").references(() => bookings.id).notNull(),
+});
+
+export const sessions = pgTable("sessions", {
+  id: serial("id").primaryKey(),
+  createdAt: timestamp("created_at").defaultNow(),
+  sessionId: text("session_id").notNull(),
+  customerId: text("customer_id").notNull(),
+  amountSubtotal: integer("amount_subtotal").notNull(),
+  amountTotal: integer("amount_total").notNull(),
+  paymentIntentId: text("payment_intent_id").notNull(),
+  paymentStatus: text("payment_status").notNull(),
+});
+
+export const twitterOauthSessions = pgTable("twitter_oauth_sessions", {
+  id: serial("id").primaryKey(),
+  createdAt: timestamp("created_at").defaultNow(),
+  oauthToken: text("oauth_token").notNull(),
+  oauthTokenSecret: text("oauth_token_secret").notNull(),
+});
+
 export const insertPropertySchema = createInsertSchema(properties).omit({
   id: true,
   createdAt: true,
@@ -75,9 +120,30 @@ export const insertWishlistSchema = createInsertSchema(wishlist).omit({
   createdAt: true,
 });
 
+export const insertAmenitySchema = createInsertSchema(amenities).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertBookingSchema = createInsertSchema(bookings).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertReviewSchema = createInsertSchema(reviews).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type Property = typeof properties.$inferSelect;
 export type InsertProperty = z.infer<typeof insertPropertySchema>;
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type WishlistItem = typeof wishlist.$inferSelect;
 export type InsertWishlistItem = z.infer<typeof insertWishlistSchema>;
+export type Amenity = typeof amenities.$inferSelect;
+export type InsertAmenity = z.infer<typeof insertAmenitySchema>;
+export type Booking = typeof bookings.$inferSelect;
+export type InsertBooking = z.infer<typeof insertBookingSchema>;
+export type Review = typeof reviews.$inferSelect;
+export type InsertReview = z.infer<typeof insertReviewSchema>;
