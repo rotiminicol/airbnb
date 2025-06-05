@@ -72,14 +72,52 @@ export default function Header({ onSearch }: HeaderProps) {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <div className="text-airbnb-red text-2xl font-bold cursor-pointer">
-              <i className="fab fa-airbnb mr-2"></i>
-              airbnb
-            </div>
+            <svg className="w-8 h-8 text-[#FF5A5F]" viewBox="0 0 32 32" fill="currentColor">
+              <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 5.395 6.114 12.083 0 7.472-6.715 14.623-16.398 14.623S0 25.849 0 17.377c0-6.688 4.16-8.253 6.114-12.083l.533-1.025C8.537 1.963 9.992 1 16 1z" />
+            </svg>
+            <span className="ml-2 text-xl font-bold text-[#FF5A5F]">airbnb</span>
           </Link>
 
+          {/* Navigation Tabs */}
+          <div className="flex items-center">
+            <div className="flex border border-gray-300 rounded-full bg-white shadow-sm">
+              <Link href="/">
+                <div className={`flex items-center px-3 md:px-6 py-2 md:py-3 rounded-full transition-colors ${
+                  location === "/" ? "bg-white text-black shadow-sm" : "text-gray-600 hover:bg-gray-50"
+                }`}>
+                  <svg className="w-4 h-4 mr-1 md:mr-2" viewBox="0 0 32 32" fill="currentColor">
+                    <path d="M24 12.7v-.9l-.4-.2-.7-.4V6c0-1.1-.9-2-2-2h-2c-1.1 0-2 .9-2 2v1.3l-2.6-1.5c-.8-.4-1.8-.4-2.6 0l-8 4.6c-.7.4-1.1 1.1-1.1 1.9v11.4c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2v-4c0-.6.4-1 1-1h2c.6 0 1 .4 1 1v4c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V12.7z"/>
+                  </svg>
+                  <span className="text-sm">Stays</span>
+                </div>
+              </Link>
+              <Link href="/experiences">
+                <div className={`flex items-center px-3 md:px-6 py-2 md:py-3 rounded-full transition-colors ${
+                  location === "/experiences" ? "bg-white text-black shadow-sm" : "text-gray-600 hover:bg-gray-50"
+                }`}>
+                  <svg className="w-4 h-4 mr-1 md:mr-2" viewBox="0 0 32 32" fill="currentColor">
+                    <path d="M13.5 3a11 11 0 0 0-11 11 11 11 0 0 0 11 11 11 11 0 0 0 11-11 11 11 0 0 0-11-11zm0 20a9 9 0 0 1-9-9 9 9 0 0 1 9-9 9 9 0 0 1 9 9 9 9 0 0 1-9 9z"/>
+                  </svg>
+                  <span className="text-sm">Experiences</span>
+                  <span className="ml-1 bg-[#FF5A5F] text-white text-xs px-1.5 py-0.5 rounded">NEW</span>
+                </div>
+              </Link>
+              <Link href="/services">
+                <div className={`flex items-center px-3 md:px-6 py-2 md:py-3 rounded-full transition-colors ${
+                  location === "/services" ? "bg-white text-black shadow-sm" : "text-gray-600 hover:bg-gray-50"
+                }`}>
+                  <svg className="w-4 h-4 mr-1 md:mr-2" viewBox="0 0 32 32" fill="currentColor">
+                    <path d="M16 1c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6zm0 14c5.5 0 10 4.5 10 10v5H6v-5c0-5.5 4.5-10 10-10z"/>
+                  </svg>
+                  <span className="text-sm">Services</span>
+                  <span className="ml-1 bg-[#FF5A5F] text-white text-xs px-1.5 py-0.5 rounded">NEW</span>
+                </div>
+              </Link>
+            </div>
+          </div>
+
           {/* Search Bar */}
-          <div className="hidden md:flex items-center bg-white border border-airbnb-border rounded-full search-shadow hover:shadow-lg transition-shadow duration-200">
+          <div className="hidden lg:flex items-center bg-white border border-gray-300 rounded-full shadow-sm hover:shadow-lg transition-shadow duration-200">
             <Popover>
               <PopoverTrigger asChild>
                 <div className="px-6 py-3 border-r border-airbnb-light-border cursor-pointer hover:bg-gray-50 rounded-l-full">
@@ -190,16 +228,16 @@ export default function Header({ onSearch }: HeaderProps) {
           </div>
 
           {/* User Menu */}
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="hidden md:block text-sm font-medium text-airbnb-dark">
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <Button variant="ghost" className="hidden lg:block text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-full px-4 py-2">
               Airbnb your home
             </Button>
             
             {/* Language/Region Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="p-2">
-                  <Globe className="h-4 w-4 text-airbnb-dark" />
+                <Button variant="ghost" size="sm" className="p-2 hover:bg-gray-100 rounded-full">
+                  <Globe className="h-4 w-4 text-gray-700" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-64">
@@ -220,9 +258,9 @@ export default function Header({ onSearch }: HeaderProps) {
             {/* User Menu Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div className="flex items-center border border-airbnb-border rounded-full px-2 py-1 hover:shadow-md transition-shadow duration-200 cursor-pointer">
-                  <Menu className="text-airbnb-dark h-4 w-4 mr-3" />
-                  <div className="w-8 h-8 bg-airbnb-dark rounded-full flex items-center justify-center">
+                <div className="flex items-center border border-gray-300 rounded-full px-2 py-1 hover:shadow-md transition-shadow duration-200 cursor-pointer">
+                  <Menu className="text-gray-600 h-4 w-4 mr-2" />
+                  <div className="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
                     <User className="text-white h-4 w-4" />
                   </div>
                 </div>
