@@ -87,6 +87,33 @@ export default function AuthModal({ isOpen, onClose, mode, onSwitchMode }: AuthM
     { name: "Apple", icon: AiOutlineApple, color: "hover:bg-gray-50" },
   ];
 
+  const handleGoogleOAuth = () => {
+    const width = 500;
+    const height = 600;
+    const left = window.screenX + (window.outerWidth - width) / 2;
+    const top = window.screenY + (window.outerHeight - height) / 2;
+    const popup = window.open(
+      'https://x8ki-letl-twmt.n7.xano.io/api:O6MkeoiD/oauth/google/login',
+      'GoogleOAuth',
+      `width=${width},height=${height},left=${left},top=${top}`
+    );
+
+    if (!popup) return;
+
+    const handleMessage = (event: MessageEvent) => {
+      // You may want to check event.origin for security
+      if (event.data && event.data.token && event.data.user) {
+        localStorage.setItem('auth_token', event.data.token);
+        localStorage.setItem('user', JSON.stringify(event.data.user));
+        window.removeEventListener('message', handleMessage);
+        popup.close();
+        onClose();
+        window.location.reload();
+      }
+    };
+    window.addEventListener('message', handleMessage);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
@@ -161,7 +188,16 @@ export default function AuthModal({ isOpen, onClose, mode, onSwitchMode }: AuthM
           </div>
 
           <div className="space-y-3">
-            {socialProviders.map((provider) => (
+            <Button
+              key="Google"
+              variant="outline"
+              className={`w-full border-black/20 hover:bg-red-50`}
+              onClick={handleGoogleOAuth}
+            >
+              <FaGoogle className="w-5 h-5 mr-3" />
+              Continue with Google
+            </Button>
+            {socialProviders.filter(p => p.name !== 'Google').map((provider) => (
               <Button
                 key={provider.name}
                 variant="outline"

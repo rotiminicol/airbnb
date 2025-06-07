@@ -85,7 +85,7 @@ export default function PropertyDetail() {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <div className="max-w-screen-2xl mx-auto px-6 lg:px-10 py-8">
+      <div className="max-w-screen-2xl mx-auto px-2 sm:px-6 lg:px-10 py-4 sm:py-8">
         {/* Back button and actions */}
         <div className="flex items-center justify-between mb-6">
           <Button 
@@ -157,7 +157,7 @@ export default function PropertyDetail() {
         </div>
 
         {/* Property details and booking */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12">
           {/* Left column - Property details */}
           <div className="lg:col-span-2 space-y-8">
             {/* Host info */}

@@ -34,9 +34,9 @@ export default function FiltersBar({ onFiltersChange, onShowMap, showMap }: Filt
 
   return (
     <div className="bg-white border-b border-airbnb-light-border">
-      <div className="max-w-screen-2xl mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between py-4">
-          <div className="flex items-center space-x-4">
+      <div className="max-w-screen-2xl mx-auto px-2 sm:px-6 lg:px-10">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between py-2 sm:py-4 gap-2 sm:gap-0">
+          <div className="flex flex-row overflow-x-auto scrollbar-hide space-x-2 sm:space-x-4">
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline" className="flex items-center space-x-2 border-airbnb-border">
@@ -147,7 +147,7 @@ export default function FiltersBar({ onFiltersChange, onShowMap, showMap }: Filt
             </Popover>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4 mt-2 sm:mt-0">
             <Button 
               variant="ghost" 
               onClick={onShowMap}

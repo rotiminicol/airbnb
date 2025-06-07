@@ -19,12 +19,12 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps) {
   };
 
   return (
-    <div className="property-card cursor-pointer group" onClick={onClick}>
-      <div className="relative overflow-hidden rounded-xl mb-3">
+    <div className="property-card cursor-pointer group p-2 sm:p-0" onClick={onClick}>
+      <div className="relative overflow-hidden rounded-xl mb-2 sm:mb-3">
         <img 
           src={property.images[0]} 
           alt={property.title}
-          className="property-image w-full h-64 object-cover"
+          className="property-image w-full h-48 sm:h-64 object-cover"
         />
         <Button
           variant="ghost"
@@ -63,7 +63,7 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps) {
       
       <div className="space-y-1">
         <div className="flex items-center justify-between">
-          <h3 className="font-medium text-airbnb-dark text-sm truncate">
+          <h3 className="font-medium text-airbnb-dark text-xs sm:text-sm truncate">
             {property.location}
           </h3>
           {property.rating && (
@@ -76,19 +76,19 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps) {
           )}
         </div>
         
-        <p className="text-sm text-gray-500 truncate">
+        <p className="text-xs sm:text-sm text-gray-500 truncate">
           {property.propertyType} • {property.bedrooms} bedroom{property.bedrooms !== 1 ? 's' : ''}
         </p>
         
-        <p className="text-sm text-gray-500">
+        <p className="text-xs sm:text-sm text-gray-500">
           Available now
         </p>
         
         <div className="flex items-baseline space-x-1">
-          <span className="font-medium text-airbnb-dark">
+          <span className="font-medium text-airbnb-dark text-sm sm:text-base">
             ${parseFloat(property.pricePerNight).toLocaleString()}
           </span>
-          <span className="text-sm text-gray-500">night</span>
+          <span className="text-xs sm:text-sm text-gray-500">night</span>
         </div>
       </div>
     </div>

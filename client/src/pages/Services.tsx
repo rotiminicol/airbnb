@@ -151,16 +151,16 @@ export default function Services() {
       <Header />
       
       {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
 
         {/* Popular Services */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-2 mb-4 sm:mb-6">
             <h2 className="text-2xl font-semibold text-gray-900">Popular</h2>
             <Badge className="bg-[#E61E4D] text-white">Popular</Badge>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filteredServices.filter(service => service.isPopular || service.rating >= 4.9).slice(0, 4).map((service) => (
               <Card key={service.id} className="group cursor-pointer hover:shadow-lg transition-shadow">
                 <CardContent className="p-0">
@@ -202,7 +202,7 @@ export default function Services() {
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap gap-3 mb-6">
+        <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
           {categories.map((category) => (
             <Button
               key={category}
@@ -221,14 +221,14 @@ export default function Services() {
 
         {/* Chefs Section */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
             <h2 className="text-2xl font-semibold text-gray-900">Chefs</h2>
             <Button variant="ghost" className="flex items-center gap-2 text-sm font-medium">
               Show all <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
             {filteredServices.filter(service => service.category === "Culinary").map((service) => (
               <Card key={service.id} className="group cursor-pointer hover:shadow-lg transition-shadow">
                 <CardContent className="p-0">
@@ -265,7 +265,7 @@ export default function Services() {
         </div>
 
         {/* All Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {filteredServices.map((service) => (
             <Card key={service.id} className="group cursor-pointer hover:shadow-lg transition-shadow">
               <CardContent className="p-0">
@@ -306,7 +306,7 @@ export default function Services() {
         </div>
 
         {filteredServices.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-8 sm:py-12">
             <p className="text-gray-600">No services found matching your search.</p>
           </div>
         )}

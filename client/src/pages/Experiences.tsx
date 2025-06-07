@@ -111,6 +111,9 @@ const mockExperiences: Experience[] = [
   }
 ];
 
+// Add a fallback placeholder image
+const PLACEHOLDER_IMG = "/placeholder.png";
+
 export default function Experiences() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -136,18 +139,18 @@ export default function Experiences() {
       <Header />
       
       {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
 
         {/* Airbnb Originals Section */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
             <h2 className="text-2xl font-semibold text-gray-900">Airbnb Originals</h2>
             <Button variant="ghost" className="flex items-center gap-2 text-sm font-medium">
               Show all <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
             {filteredExperiences.filter(exp => exp.isOriginal).map((experience) => (
               <Card key={experience.id} className="group cursor-pointer hover:shadow-lg transition-shadow">
                 <CardContent className="p-0">
@@ -155,7 +158,8 @@ export default function Experiences() {
                     <img
                       src={experience.image}
                       alt={experience.title}
-                      className="w-full h-48 object-cover rounded-t-lg"
+                      className="w-full h-48 object-cover rounded-t-lg bg-gray-100"
+                      onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = PLACEHOLDER_IMG; }}
                     />
                     <Badge className="absolute top-3 left-3 bg-white text-black font-medium">
                       Original
@@ -187,7 +191,7 @@ export default function Experiences() {
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap gap-3 mb-6">
+        <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
           {categories.map((category) => (
             <Button
               key={category}
@@ -205,7 +209,7 @@ export default function Experiences() {
         </div>
 
         {/* All Experiences Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {filteredExperiences.map((experience) => (
             <Card key={experience.id} className="group cursor-pointer hover:shadow-lg transition-shadow">
               <CardContent className="p-0">
@@ -213,7 +217,8 @@ export default function Experiences() {
                   <img
                     src={experience.image}
                     alt={experience.title}
-                    className="w-full h-64 object-cover rounded-t-lg"
+                    className="w-full h-64 object-cover rounded-t-lg bg-gray-100"
+                    onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = PLACEHOLDER_IMG; }}
                   />
                   {experience.isOriginal && (
                     <Badge className="absolute top-3 left-3 bg-white text-black font-medium">
@@ -246,7 +251,7 @@ export default function Experiences() {
         </div>
 
         {filteredExperiences.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-8 sm:py-12">
             <p className="text-gray-600">No experiences found matching your search.</p>
           </div>
         )}

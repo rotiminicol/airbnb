@@ -18,8 +18,8 @@ export default function Footer() {
 
   return (
     <footer className="bg-airbnb-light-gray border-t border-airbnb-light-border mt-16">
-      <div className="max-w-screen-2xl mx-auto px-6 lg:px-10 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           <div className="space-y-4">
             <h3 className="font-medium text-airbnb-dark">Support</h3>
             <ul className="space-y-3 text-sm text-gray-600">
@@ -84,8 +84,8 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-airbnb-light-border mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
-            <div className="flex flex-wrap items-center space-x-4 mb-4 md:mb-0">
+          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 gap-4">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2 mb-2 md:mb-0">
               <span>© 2024 Airbnb, Inc.</span>
               <a href="#" className="hover:underline">Privacy</a>
               <a href="#" className="hover:underline">Terms</a>
